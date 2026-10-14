@@ -1,6 +1,26 @@
 {
- "updated": "2026-10-14T13:06:59.983873+00:00",
+ "updated": "2026-10-14T17:08:31.830160+00:00",
  "papers": [
+  {
+   "id": "eprint:2026/2473",
+   "title": "edaBits in the Exponent (edaBitE) and Issuer-Hiding Blind Signatures from ML-DSA and VOLE-in-the-Head",
+   "authors": "Carsten Baum, Marvin Beckmann",
+   "abstract": "Blind signatures let a user obtain a signature by interacting with an issuer that controls the signing key, while the issuer never sees the message. They form the basis of anonymous credentials, which are the centerpiece of privacy-preserving digital identification to be deployed widely in the coming years. Existing plausibly quantum-secure blind signatures rely on bespoke cryptographic constructions, instead of standardized ones. This is dissatisfying from a cryptographic perspective, and also leads to practical issues: secret signing keys are often stored in secure elements, in which case only signature algorithms supported by certified secure elements can be the basis for deployed protocols. We give the first blind signature whose issuer runs a NIST-standardized post-quantum signature scheme unmodified. Issuance is just an ML-DSA signature on a commitment, and the blind signature is a zero-knowledge proof of knowledge, using the VOLE-in-the-head zero-knowledge proof system, of the ML-DSA signature. Security reduces to the EUF-CMA security of ML-DSA and to the proof system, with no new assumptions. A blind signature is about $1$ MB and takes under a second to produce and half a second to verify. Issuer-hiding and selective disclosure of signed attributes can easily be added on top for a few tens of kilobytes, at a proof size essentially independent of how many issuers the list names. Underlying the construction is edaBitE, a novel batch consistency check between binary and prime-field commitments. In a non-interactive proof, the existing edaBits checks it replaces would be the single largest item in the blind signature. We believe that edaBitE is of independent interest.",
+   "url": "https://eprint.iacr.org/2026/2473",
+   "pdf": "https://eprint.iacr.org/2026/2473.pdf",
+   "source": "ePrint",
+   "date": "2026-10-14T10:31:45+00:00"
+  },
+  {
+   "id": "eprint:2026/2472",
+   "title": "Nowhere Man: Device Binding for Post-Quantum Anonymous Credentials",
+   "authors": "Calvin Abou Haidar, Ryo Kikuchi, Octavio Perez-Kempner, Marcel Tiepelt",
+   "abstract": "Anonymous credentials are seeing widespread deployment. Notably, the European Commission plans to roll out age-verification solutions based on anonymous credentials by the end of 2026. Similarly, Google open-sourced Longfellow, a zero-knowledge proof system that lifts the standardized mobile Driver License framework into a full-fledged anonymous credentials, and is currently being integrated with Google Wallet. Any secure deployment of anonymous credentials must address two major challenges: 1) provide guarantees against credential sharing, and 2) support proof-of-personhood. The standard approach adopted by the industry to address both is device binding, which is mandatory for mDL and was only recently formalized for anonymous credentials by Friedrichs et al. (Eurocrypt '26). Simply put, the idea is to have the user's phone Secure Element sign a fresh challenge from the verifier, and to prove knowledge of this signature in zero-knowledge at each credential presentation. To date, all existing approaches, including Vega (S&P '26), have only considered non-post-quantum solutions based on legacy signature schemes. Crucial for near-term deployments and adoption is to work with standardized post-quantum signature schemes, such as ML-DSA, which were not designed for privacy. Because of this, solutions based on general non-interactive zero-knowledge proof systems (e.g., Longfellow) appear to be needed. This genericity, however, requires proving complex statements, significantly impacting proving time. In this work, we present a modular device binding protocol tailored to work with ML-DSA. We avoid the pitfalls of the generic approach by leveraging the structure of ML-DSA resulting in an efficient solution, but retaining the security underlying the post-quantum standard. Our most efficient variants additionally rely on a weak-MLWR assumption for unlinkability, which can be removed at the cost of lower efficiency. While tailored for ML-DSA and requiring no modification to the FIPS~204 signing interface, our solution is modular enough to be integrated with different anonymous credential schemes, allowing real-world solutions to pick the most efficient building blocks. To demonstrate the feasibility of our solution, we provide a proof-of-concept implementation.",
+   "url": "https://eprint.iacr.org/2026/2472",
+   "pdf": "https://eprint.iacr.org/2026/2472.pdf",
+   "source": "ePrint",
+   "date": "2026-10-14T09:26:32+00:00"
+  },
   {
    "id": "eprint:2026/2453",
    "title": "Revisiting Witness-Succinct UC-lifting Compilers",
