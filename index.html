@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recent Zero-Knowledge Papers</title>
+<meta name="description" content="A continuously updated list of recent zero-knowledge proof papers from the IACR ePrint Archive and arXiv.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#e6edf1; --ink:#17232e; --muted:#4d5f6d; --accent:#f0b429; --teal:#1d5a63; --line:#b9c8d1; --eprint:#1f5fa8; --arxiv:#a6490f; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#111c24; --ink:#e8eff3; --muted:#9db0bd; --teal:#7cc4cc; --line:#2c3f4c; --eprint:#7fb2ee; --arxiv:#f0a46b; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:1.0625rem/1.6 "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color:var(--teal); text-underline-offset:3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+  .wrap { max-width:50rem; margin:0 auto; padding:0 1.5rem 3rem; }
+  header { padding:3.5rem 0 1.5rem; }
+  h1 { margin:0; font-size:clamp(2.2rem, 8vw, 3.6rem); line-height:1.05; font-weight:800; letter-spacing:-.03em;
+    background:linear-gradient(transparent 68%, var(--accent) 68% 92%, transparent 92%); display:inline;
+    -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+  .sub { color:var(--muted); margin:1.25rem 0 .5rem; max-width:40rem; }
+  .controls { display:grid; gap:.75rem; margin:1.5rem 0 2rem; }
+  .row { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; }
+  .label { color:var(--muted); font-size:.9rem; min-width:4.5rem; }
+  input[type=search] { font:inherit; flex:1; min-width:12rem; color:var(--ink); background:transparent; border:2px solid var(--line); border-radius:999px; padding:.4rem 1rem; }
+  .chip { font:inherit; font-size:.9rem; font-weight:600; color:var(--ink); background:transparent; border:2px solid var(--line); border-radius:999px; padding:.2rem .85rem; cursor:pointer; }
+  .chip:hover { border-color:var(--teal); }
+  .chip[aria-pressed="true"] { background:var(--accent); border-color:var(--accent); color:#17232e; }
+  h2 { font-size:1.5rem; margin:2.5rem 0 .25rem; letter-spacing:-.02em; padding-top:1.5rem; border-top:1px solid var(--line); }
+  h2 small { color:var(--muted); font-weight:400; font-size:1rem; }
+  article { padding:1rem 0; border-bottom:1px solid var(--line); }
+  article h3 { margin:0; font-size:1.1rem; line-height:1.35; }
+  .meta { color:var(--muted); font-size:.92rem; margin:.2rem 0; }
+  .src { font-weight:600; }
+  .src.ePrint { color:var(--eprint); } .src.arXiv { color:var(--arxiv); }
+  details { color:var(--muted); font-size:.98rem; }
+  summary { cursor:pointer; color:var(--teal); font-size:.92rem; }
+  details p { margin:.4rem 0 0; max-width:65ch; }
+  .empty { color:var(--muted); padding:1rem 0; }
+  footer { color:var(--muted); font-size:.9rem; margin-top:3rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>recent zero-knowledge papers</h1>
+    <p class="sub">A regularly updated list of recent zero-knowledge proof papers from the <a href="https://eprint.iacr.org/">IACR ePrint Archive</a> and <a href="https://arxiv.org/">arXiv</a>. Maintained by <a href="https://paul-protik.github.io/">Protik Kumar Paul</a>.</p>
+    <p class="sub" id="updated"></p>
+  </header>
+
+  <div class="controls">
+    <div class="row"><span class="label">search</span><input type="search" id="q" placeholder="title, author or abstract" aria-label="Search papers"></div>
+    <div class="row" id="sources"><span class="label">source</span></div>
+    <div class="row" id="topics"><span class="label">topic</span></div>
+  </div>
+
+  <main id="out"></main>
+
+  <footer>
+    Metadata from the <a href="https://eprint.iacr.org/">IACR Cryptology ePrint Archive</a> (CC0) and <a href="https://arxiv.org/">arXiv</a>.
+    Thank you to arXiv for use of its open access interoperability.
+  </footer>
+</div>
+
+<script>
+  const SOURCES = ["ePrint", "arXiv"];
+  const TOPICS = {
+    "SNARKs": /snark/i, "STARKs / FRI": /\bstarks?\b|\bfri\b/i, "Lattice-based": /lattice|\blwe\b|\bsis\b/i,
+    "MPC-in-the-head": /mpc[- ]in[- ]the[- ]head|mpcith/i, "Sigma / NIZK": /sigma|nizk|fiat[- ]shamir/i,
+    "Commitments": /commitment/i, "zkVM / zkML": /zkvm|zkml|virtual machine|machine learning/i,
+    "Distributed provers": /distributed|collaborative|multi-?prover/i
+  };
+  const state = { q: "", sources: new Set(), topics: new Set(), papers: [] };
+  const $ = id => document.getElementById(id);
+
+  function chip(parent, text, set) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = text; b.setAttribute("aria-pressed", "false");
+    b.onclick = () => {
+      set.has(text) ? set.delete(text) : set.add(text);
+      b.setAttribute("aria-pressed", set.has(text)); render();
+    };
+    parent.appendChild(b);
+  }
+  SOURCES.forEach(s => chip($("sources"), s, state.sources));
+  Object.keys(TOPICS).forEach(t => chip($("topics"), t, state.topics));
+  $("q").oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
+
+  function matches(p) {
+    const text = p.title + " " + p.abstract;
+    if (state.sources.size && !state.sources.has(p.source)) return false;
+    if (state.topics.size && ![...state.topics].some(t => TOPICS[t].test(text))) return false;
+    return !state.q || (text + " " + p.authors).toLowerCase().includes(state.q);
+  }
+
+  function card(p) {
+    const a = document.createElement("article");
+    const h = document.createElement("h3"), l = document.createElement("a");
+    l.href = p.url; l.textContent = p.title; h.appendChild(l); a.appendChild(h);
+    const m = document.createElement("div"); m.className = "meta";
+    const s = document.createElement("span"); s.className = "src " + p.source; s.textContent = p.source;
+    m.append(s, " · " + new Date(p.date).toISOString().slice(0, 10) + " · " + (p.authors || "unknown authors") + " · ");
+    const pdf = document.createElement("a"); pdf.href = p.pdf; pdf.textContent = "PDF"; m.appendChild(pdf);
+    a.appendChild(m);
+    if (p.abstract) {
+      const d = document.createElement("details"), sm = document.createElement("summary"), ab = document.createElement("p");
+      sm.textContent = "abstract"; ab.textContent = p.abstract; d.append(sm, ab); a.appendChild(d);
+    }
+    return a;
+  }
+
+  function render() {
+    const now = Date.now(), day = 864e5;
+    const buckets = [["this week", 7, []], ["this month", 30, []], ["this year", 365, []]];
+    state.papers.filter(matches).forEach(p => {
+      const age = (now - new Date(p.date)) / day;
+      const b = buckets.find(b => age <= b[1]);
+      if (b) b[2].push(p);
+    });
+    const out = $("out"); out.replaceChildren();
+    let total = 0;
+    buckets.forEach(([name, , list]) => {
+      total += list.length;
+      const h = document.createElement("h2"); h.textContent = name + " ";
+      const c = document.createElement("small"); c.textContent = "(" + list.length + ")"; h.appendChild(c);
+      out.appendChild(h);
+      if (!list.length) { const e = document.createElement("p"); e.className = "empty"; e.textContent = "No papers."; out.appendChild(e); }
+      list.forEach(p => out.appendChild(card(p)));
+    });
+    if (!state.papers.length) {
+      out.replaceChildren(Object.assign(document.createElement("p"), { className: "empty",
+        textContent: "No papers yet. The list fills in after the first scheduled update runs." }));
+    }
+  }
+
+  fetch("papers.json", { cache: "no-cache" }).then(r => r.json()).then(d => {
+    state.papers = d.papers || [];
+    if (d.updated) $("updated").textContent = "Last updated " + new Date(d.updated).toUTCString() + " · " + state.papers.length + " papers tracked";
+    render();
+  }).catch(() => { $("out").textContent = "Could not load papers.json."; });
+</script>
+</body>
+</html>
