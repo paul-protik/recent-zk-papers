@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T04:29:53.794333+00:00",
+ "updated": "2026-10-16T11:20:46.537622+00:00",
  "papers": [
   {
    "id": "eprint:2026/2493",
@@ -760,6 +760,16 @@
    "pdf": "http://arxiv.org/pdf/2607.21839v1",
    "source": "arXiv",
    "date": "2026-07-23T22:06:12Z"
+  },
+  {
+   "id": "eprint:2026/1508",
+   "title": "ZKPoSP: Post-Quantum Zero-Knowledge Proofs for Hierarchical Deterministic Wallets",
+   "authors": "Vincenzo Botta, Michal Pospieszalski, Emanuele Ragnoli, Justus Ranvier",
+   "abstract": "In the blockchain setting, where key derivation standards such as BIP32, BIP44, and SLIP-10 are the dominant infrastructure for wallet management, a quantum computer running Shor's algorithm can recover any elliptic-curve private key from the corresponding public key, threatening every wallet in production today. Migrating to post-quantum signature schemes requires changing the public key format and forcing address migration across all participating networks. We present an orthogonal approach: keep the existing address format unchanged and replace the classical signing step with a NIZK proof of knowledge of the seed underlying the address (or of the private data of a hardened ancestor), where no step of the security argument relies on the discrete logarithm problem. We prove security against quantum adversaries in the quantum random oracle model, under an explicit assumption on the zero-knowledge and simulation extractability of the NIZK. We build on the observation of Baldimtsi et al.\\ that EdDSA's deterministic seed-to-key mapping makes the seed a valid zero-knowledge witness for the public key, and extend their result to hierarchical deterministic wallets. Our main contribution is ZKPoSP (Zero-Knowledge Proof of Seed Provenance), a signature scheme that splits the proof into a derivation proof generated once per key pair and a signing proof generated once per message, so that the per-message proving cost does not depend on the derivation depth. We also introduce QBIP32, a key derivation scheme based on a keyed function HASH768 (instantiated with KMAC256) that produces the signing scalar, an explicit witness, and the chain code in a single call at hardened steps, for any elliptic curve group of prime order. As last contributioun we notice that after Q-day, once networks reject all non-post-quantum signatures, the signing scalars can be moved to the public statement reducing derivation proving time.",
+   "url": "https://eprint.iacr.org/2026/1508",
+   "pdf": "https://eprint.iacr.org/2026/1508.pdf",
+   "source": "ePrint",
+   "date": "2026-07-23T19:28:41+00:00"
   },
   {
    "id": "arxiv:2607.21325",
@@ -1750,6 +1760,16 @@
    "pdf": "http://arxiv.org/pdf/2601.22302v1",
    "source": "arXiv",
    "date": "2026-01-29T20:32:30Z"
+  },
+  {
+   "id": "eprint:2026/144",
+   "title": "Designated-Verifier Dynamic zk-SNARKs with Applications to Dynamic Proofs of Index",
+   "authors": "Weijie Wang, Charalampos Papamanthou, Shravan Srinivasan, Dimitrios Papadopoulos",
+   "abstract": "Recently, the notion of dynamic zk-SNARKs was introduced. A dynamic zk-SNARK augments a standard zk-SNARK with an efficient update algorithm. Given a valid source statement-witness pair $(x,w)$ together with a verifying proof $p$, and a valid target statement-witness pair $(x',w')$, the update algorithm outputs a verifying proof $p'$ for $(x',w')$. Crucially, $p'$ is not recomputed from scratch; instead, the update algorithm takes time roughly proportional to the Hamming distance between $(x,w)$ and $(x',w')$, analogous to how dynamic data structures update the result of a computation after a small change. In this paper, we initiate the study of designated-verifier dynamic zk-SNARKs: dynamic zk-SNARKs in which only a designated verifier, holding secret verification state, can be convinced by a proof. Following recent advances in designated-verifier zk-SNARKs---such as efficient post-quantum designated verifier SNARKs (CCS 2021) and designated verifier SNARKs with very small proofs (CRYPTO 2025)---we construct a designated-verifier dynamic zk-SNARK with $O(\\log n)$ update time, constant proof size, and concrete efficiency. Our construction significantly outperforms Dynalog (both asymptotically and concretely), the only publicly verifiable dynamic zk-SNARK with polylogarithmic update time (Wang et al., 2024). The concrete efficiency of our construction enables, for the first time, an efficient implementation of a dynamic proof of index: Given a digest $d$ of an arbitrary set and a digest $d'$ of its sorted index (e.g., binary search tree), we produce a SNARK proof certifying the consistency of $d$ and $d'$. More importantly, this proof can be updated in sublinear time when the underlying set changes---for example, when an element is modified or inserted, potentially altering the sorted order. We demonstrate applications of designated-verifier dynamic proofs of index to verifiable dynamic database outsourcing, where a client outsources a database and later maintains verifiable indices for efficient query answering, even under arbitrary database updates.",
+   "url": "https://eprint.iacr.org/2026/144",
+   "pdf": "https://eprint.iacr.org/2026/144.pdf",
+   "source": "ePrint",
+   "date": "2026-01-29T17:30:19+00:00"
   },
   {
    "id": "arxiv:2601.17875",
