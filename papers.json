@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T16:37:08.298372+00:00",
+ "updated": "2026-10-16T21:05:47.703019+00:00",
  "papers": [
   {
    "id": "eprint:2026/2493",
@@ -2440,16 +2440,6 @@
    "pdf": "http://arxiv.org/pdf/2509.10819v1",
    "source": "arXiv",
    "date": "2025-09-13T14:36:49Z"
-  },
-  {
-   "id": "arxiv:2509.09787",
-   "title": "ZORRO: Zero-Knowledge Robustness and Privacy for Split Learning (Full Version)",
-   "authors": "Nojan Sheybani, Alessandro Pegoraro, Jonathan Knauer, Phillip Rieger, Elissa Mollakuqe, Farinaz Koushanfar, Ahmad-Reza Sadeghi",
-   "abstract": "Split Learning (SL) is a distributed learning approach that enables resource-constrained clients to collaboratively train deep neural networks (DNNs) by offloading most layers to a central server while keeping in- and output layers on the client-side. This setup enables SL to leverage server computation capacities without sharing data, making it highly effective in resource-constrained environments dealing with sensitive data. However, the distributed nature enables malicious clients to manipulate the training process. By sending poisoned intermediate gradients, they can inject backdoors into the shared DNN. Existing defenses are limited by often focusing on server-side protection and introducing additional overhead for the server. A significant challenge for client-side defenses is enforcing malicious clients to correctly execute the defense algorithm. We present ZORRO, a private, verifiable, and robust SL defense scheme. Through our novel design and application of interactive zero-knowledge proofs (ZKPs), clients prove their correct execution of a client-located defense algorithm, resulting in proofs of computational integrity attesting to the benign nature of locally trained DNN portions. Leveraging the frequency representation of model partitions enables ZORRO to conduct an in-depth inspection of the locally trained models in an untrusted environment, ensuring that each client forwards a benign checkpoint to its succeeding client. In our extensive evaluation, covering different model architectures as well as various attack strategies and data scenarios, we show ZORRO's effectiveness, as it reduces the attack success rate to less than 6\\% while causing even for models storing \\numprint{1000000} parameters on the client-side an overhead of less than 10 seconds.",
-   "url": "http://arxiv.org/abs/2509.09787v1",
-   "pdf": "http://arxiv.org/pdf/2509.09787v1",
-   "source": "arXiv",
-   "date": "2025-09-11T18:44:09Z"
   }
  ]
 }
